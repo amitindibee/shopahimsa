@@ -12,8 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getPublicKey, encryptPayload } from "@/lib/auth";
-import api from "@/lib/api";
+import apiService from "@/lib/api";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required"),
@@ -46,24 +45,7 @@ const CowIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const [publicKey, setPublicKey] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchKey = async () => {
-      try {
-        const key = await getPublicKey();
-        setPublicKey(key);
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Authentication Error",
-          description: "Could not fetch security credentials. Please try again later.",
-        });
-      }
-    };
-    fetchKey();
-  }, [toast]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -74,38 +56,30 @@ export default function LoginPage() {
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-    if (!publicKey) {
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Security key not available. Cannot log in.",
-        });
-        return;
-    }
     setIsLoading(true);
 
     try {
-        const payload = { email: data.email, password: data.password };
-        const encryptedPayload = encryptPayload(payload, publicKey);
-        
-        const response = await api.post('/auth/login', { payload: encryptedPayload });
+        const response = await apiService.login(data);
 
-        const user = response.data; // Assuming API returns user object { email, role, ... }
-        localStorage.setItem('user', JSON.stringify(user));
-        
-        toast({
-            title: "Login Successful",
-            description: "Welcome back!",
-        });
-        
-        if (user.role === 'admin') {
-            router.push('/admin');
+        if (response.status === 'success' && response.data) {
+            localStorage.setItem('user', JSON.stringify(response));
+            
+            toast({
+                title: "Login Successful",
+                description: "Welcome back!",
+            });
+            
+            if (response.data.user.role === 'admin') {
+                router.push('/admin');
+            } else {
+                router.push('/');
+            }
         } else {
-            router.push('/');
+            throw new Error(response.message || 'Login failed');
         }
     } catch (error: any) {
          console.error("Login failed:", error);
-         const errorMessage = error.response?.data?.message || "Invalid credentials or an unknown error occurred.";
+         const errorMessage = error.response?.data?.message || error.message || "Invalid credentials or an unknown error occurred.";
          toast({
             variant: "destructive",
             title: "Login Failed",
@@ -163,8 +137,8 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" size="lg" className="w-full" disabled={!publicKey || isLoading}>
-                {isLoading ? "Signing In..." : (publicKey ? 'Sign In' : 'Loading...')}
+              <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing In..." : 'Sign In'}
               </Button>
             </form>
           </Form>

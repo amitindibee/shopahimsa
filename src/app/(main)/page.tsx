@@ -1,9 +1,8 @@
 
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { Truck, HeartHandshake, Star } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +11,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ManagedImage } from "@/components/managed-image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContentProvider, useContent } from "@/app/(admin)/_context/content-context";
+import apiService from "@/lib/api";
+import type { Product, Banner } from "@/lib/types/api";
+import { useToast } from "@/hooks/use-toast";
 
 const CowIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg 
@@ -42,9 +44,43 @@ const icons: { [key: string]: React.ElementType } = {
 
 
 function HomePageContent() {
-  const featuredProducts = products.slice(0, 4);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
   const { content } = useContent();
   const { whyChooseUsItems, testimonials } = content;
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch featured products
+        const productsResponse = await apiService.getFeaturedProducts({ limit: 4 });
+        if (productsResponse.status === 'success') {
+          setFeaturedProducts(productsResponse.data);
+        }
+
+        // Fetch active banners
+        const bannersResponse = await apiService.getActiveBanners({ limit: 5 });
+        if (bannersResponse.status === 'success') {
+          setBanners(bannersResponse.data);
+        }
+      } catch (error: any) {
+        console.error("Failed to fetch homepage data:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to load homepage content",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [toast]);
 
   return (
     <div className="space-y-16">

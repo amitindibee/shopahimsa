@@ -64,11 +64,11 @@ export const navItems = [
     { href: "/admin", icon: Home, label: "Dashboard" },
     { href: "/admin/orders", icon: ShoppingCart, label: "Orders" },
     { href: "/admin/products", icon: Package, label: "Products" },
-    { href: "/admin/coupons", icon: Ticket, label: "Coupons" },
-    { href: "/admin/customers", icon: Users, label: "Customers" },
-    { href: "/admin/analytics", icon: LineChart, label: "Analytics" },
+    { href: "/admin/users", icon: Users, label: "Users" },
+    { href: "/admin/categories", icon: FileText, label: "Categories" },
+    { href: "/admin/banners", icon: BookOpen, label: "Banners" },
     { href: "/admin/content", icon: FileText, label: "Content" },
-    { href: "/admin/blog", icon: BookOpen, label: "Blog" },
+    { href: "/admin/analytics", icon: LineChart, label: "Analytics" },
 ];
 
 export const settingsItem = { href: "/admin/settings", icon: Settings, label: "Settings" };
