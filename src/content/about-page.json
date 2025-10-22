@@ -1,0 +1,23 @@
+
+{
+  "teamMembers": [
+    {
+      "name": "Shashank Bose",
+      "role": "Founder & CEO",
+      "avatar": "/prof1.png",
+      "data_ai_hint": "woman smiling"
+    },
+    {
+      "name": "Ruthvik Reddy",
+      "role": "Head of Sales",
+      "avatar": "/prof2.png",
+      "data_ai_hint": "man smiling"
+    },
+    {
+      "name": "Akshay C",
+      "role": "Head of Operations",
+      "avatar": "/prof3.png",
+      "data_ai_hint": "person smiling"
+    }
+  ]
+}

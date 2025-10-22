@@ -1,0 +1,42 @@
+
+{
+  "quickLinks": [
+    { "name": "About Us", "href": "/about" },
+    { "name": "Contact", "href": "/contact" },
+    { "name": "Offers", "href": "/offers" },
+    { "name": "FAQs", "href": "/faq" },
+    { "name": "Testimonials", "href": "/testimonials" },
+    { "name": "Privacy Policy", "href": "/privacy" },
+    { "name": "Track Order", "href": "/track-order" }
+  ],
+  "shopLinks": [
+    { "name": "All Products", "href": "/products" },
+    { "name": "Ghee", "href": "/products?category=Ghee" },
+    { "name": "Paneer", "href": "/products?category=Paneer" },
+    { "name": "Milk", "href": "/products?category=Milk" },
+    { "name": "Curd", "href": "/products?category=Curd" },
+    { "name": "Butter", "href": "/products?category=Butter" }
+  ],
+  "socialLinks": [
+    { "name": "Facebook", "icon": "Facebook", "href": "#" },
+    { "name": "Twitter", "icon": "Twitter", "href": "#" },
+    { "name": "Instagram", "icon": "Instagram", "href": "#" }
+  ],
+  "megaMenu": {
+    "categories": [
+      { "title": "All Products", "href": "/products", "description": "Browse our entire collection." },
+      { "title": "A2 Ghee", "href": "/products?category=Ghee", "description": "Pure, hand-churned ghee." },
+      { "title": "A2 Paneer", "href": "/products?category=Paneer", "description": "Soft and fresh cottage cheese." },
+      { "title": "A2 Milk", "href": "/products?category=Milk", "description": "Farm-fresh, pure A2 milk." },
+      { "title": "A2 Curd", "href": "/products?category=Curd", "description": "Thick and creamy traditional dahi." },
+      { "title": "Butter", "href": "/products?category=Butter", "description": "Artisanal white butter." }
+    ],
+    "companyLinks": [
+      { "title": "About Us", "href": "/about", "icon": "Info", "description": "Learn about our mission and values." },
+      { "title": "Our Story", "href": "/about", "icon": "Heart", "description": "The journey of AhimsaPure." },
+      { "title": "Blog", "href": "/blog", "icon": "Rss", "description": "Recipes, tips, and farm stories." },
+      { "title": "FAQs", "href": "/faq", "icon": "HelpCircle", "description": "Answers to your common questions." },
+      { "title": "Privacy Policy", "href": "/privacy", "icon": "Shield", "description": "How we protect your data." }
+    ]
+  }
+}
